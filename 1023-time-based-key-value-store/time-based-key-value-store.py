@@ -14,13 +14,14 @@ class TimeMap:
     def get(self, key: str, timestamp: int) -> str:
         # dict = {foo: [[bar1, 1], [bar2, 2]]}
         # binary search as all timestamps are given in ascending sorted order (as time moves only forwards)
+        
         res = ""
         if key not in self.dict: return res
 
         l, r = 0, len(self.dict[key]) - 1
 
         array = self.dict[key]
-        
+
         while l <= r:
             mid = (l + r) // 2
 
@@ -32,6 +33,8 @@ class TimeMap:
                 r = mid - 1
 
         return res
+
+        
 
 
         
