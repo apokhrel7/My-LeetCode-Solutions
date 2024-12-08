@@ -12,22 +12,19 @@ class Solution:
 
         def dfs(i, sum_, cache):
 
-            # case 1: out of bounds
-            if i >= n:
-                return False
-
-            # case 2: sum is too large
-            if sum_ > target:
+            # case 1: out of bounds, case 2: sum is too large
+            if i >= n or sum_ > target:
                 return False
 
             # case 3: subset sum is found
             if sum_ == target:
                 return True
 
+            # case 4: if subproblem has already been solved
             if (i, sum_) in cache:
                 return cache[(i, sum_)]
 
-
+            # store the sum problem within pair (i, sum) representing sum at index i by either including nums[i] or not including it
             cache[(i, sum_)] = dfs(i + 1, nums[i] + sum_, cache) or dfs(i + 1, sum_, cache)
             return cache[(i, sum_)]
             
