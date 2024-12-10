@@ -1,36 +1,30 @@
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
-        # at each tree level: n choices
-
-        total_sum = sum(nums)
-
-        if total_sum % 2 != 0:
-            return False
-
-        target = total_sum // 2
         n = len(nums)
 
-        def dfs(i, sum_, cache):
+        target_num = sum(nums) // 2
 
-            # case 1: out of bounds, case 2: sum is too large
-            if i >= n or sum_ > target:
+        # Base case 1
+        if sum(nums) % 2 != 0:
+            return False
+
+        
+        def dfs(i, sum_, cache):
+            # Base case 2, 3
+            if i >= n or sum_ > target_num:
                 return False
 
-            # case 3: subset sum is found
-            if sum_ == target:
+            # Base case 4
+            if sum_ == target_num:
                 return True
 
-            # case 4: if subproblem has already been solved
             if (i, sum_) in cache:
                 return cache[(i, sum_)]
 
-            # store the sum problem within pair (i, sum) representing sum at index i by either including nums[i] or not including it
             cache[(i, sum_)] = dfs(i + 1, nums[i] + sum_, cache) or dfs(i + 1, sum_, cache)
             return cache[(i, sum_)]
-            
-
-           
 
         return dfs(0, 0, {})
+
 
         
