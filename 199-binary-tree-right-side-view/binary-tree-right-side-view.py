@@ -8,34 +8,33 @@
 from collections import deque
 class Solution:
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+        q = deque()
 
-        # need to traverse level by level --> 
         res = []
 
-        if not root: return res
-        
-        q = deque()
-        q.append(root)
-        right_side_node = None
+        if not root:
+            return res
+
+        q.append(root)  # add root to queue
+
+        rightside_node = None
 
         while q:
-
-            
-            n = len(q)
-
-            for _ in range(n):
-                right_side_node = q.popleft()
+            if rightside_node:
+                res.append(rightside_node.val)
                 
-                if right_side_node.left:
-                    q.append(right_side_node.left)
+            for i in range(len(q)):
+                node = q.popleft()  # leftmost node gets popped first
 
-                if right_side_node.right:
-                    q.append(right_side_node.right)
+                if node:
+                    rightside_node = node
+                    q.append(node.left)  # adding left before right so that left gets popped first, right gets popped last which is when loop ends
+                    q.append(node.right) 
 
-            
-            res.append(right_side_node.val)
+           
 
         return res
+        
 
         
 
