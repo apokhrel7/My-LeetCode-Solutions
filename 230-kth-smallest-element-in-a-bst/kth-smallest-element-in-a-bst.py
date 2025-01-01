@@ -11,21 +11,26 @@ class Solution:
 
         # just add nodes to list until it reaches k elements so return last one
 
+        ## OPTIMIZED Space-complexitty ##
+        # Runtime: O(h), Space: O(k) instead of previous O(n)
+
         res = []
         def dfs(node):
             if not node:
                 return
 
+            dfs(node.left)
+
+            # stops recursion as soon as kth smallest element reached
             if len(res) == k:
                 return
             
-            dfs(node.left)
             res.append(node.val)
             dfs(node.right)
 
         
         dfs(root)
-        return res[k-1]
+        return res[-1]
 
 
         
