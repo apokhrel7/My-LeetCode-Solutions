@@ -2,50 +2,38 @@ from collections import deque
 
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
+        ROWS, COLS = len(grid), len(grid[0])
+        visited = set()
 
-        # use bfs to traverse adjacent lands horizontally or vertically
-        # for ex2 to work, have to go through entire grid then apply bfs to each one (dont visit lands already visited)
-
-        # Constants
-        ROWS = len(grid)
-        COLS = len(grid[0])
-
-
-        visited = set() # keeps track of visited coordinates
-
-        def bfs(r, c):
-            
+    
+        def bfs(row, col):
             q = deque()
-            q.append((r, c))
+            q.append((row, col))
+            visited.add((row, col))
 
-
-            DIRECTIONS = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+            DIRECTIONS = [(1, 0), (0, 1), (-1, 0), (0, -1)]
             
-            # loop as long as you see adjacent islands (which are ready in the queue)
             while q:
                 r, c = q.popleft()
+               
+                for x, y in DIRECTIONS:
+                    new_r, new_c = r + x, c + y
 
-                for dx, dy in DIRECTIONS:
-                    new_r, new_c = r + dx, c + dy
-
-                    if 0 <= new_r < ROWS and 0 <= new_c < COLS and (new_r, new_c) not in visited and grid[new_r][new_c] == '1':
-                        q.append((new_r, new_c))    # this land might have adjacent lands, so add it to queue
-                        visited.add((new_r, new_c)) # mark this land as visited
+                    if 0 <= new_r < ROWS and 0 <= new_c < COLS and grid[new_r][new_c] == '1' and (new_r, new_c) not in visited:
+                        visited.add((new_r, new_c))
+                        q.append((new_r, new_c))
 
 
-        count_num_islands = 0
+        num_islands = 0
+        for r in range(ROWS):
+            for c in range(COLS):
+                if grid[r][c] == '1' and (r, c) not in visited:
+                    num_islands += 1
+                    bfs(r, c)
 
-        for i in range(ROWS):
-            for j in range(COLS):
-                if (i, j) not in visited and grid[i][j] == '1':
-                    count_num_islands += 1  # only increments if new island is found (done by the conditional logic above)
-                    visited.add((i, j))
-                    bfs(i, j)
-
-        return count_num_islands
-
+        return num_islands
 
         
 
 
-        
+            
