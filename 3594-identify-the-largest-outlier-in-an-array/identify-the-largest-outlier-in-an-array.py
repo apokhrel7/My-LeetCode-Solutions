@@ -19,13 +19,22 @@ class Solution:
         total_sum = sum(nums)
         max_outlier = float('-inf')
 
-        for key in dict:
-            # try each number and see if it is the sum special number
-            outlier = total_sum - 2*key
+        # for key in dict:
+        #     # try each number and see if it is the sum special number
+        #     outlier = total_sum - 2*key
 
-            if outlier in dict.keys():
-                if key != outlier or dict[key] > 1:
+        #     if outlier in dict.keys():
+        #         if key != outlier or dict[key] > 1:
+        #             max_outlier = max(max_outlier, outlier)
+
+        for i in range(len(nums)):
+            # try each number and see if it is the sum special number
+            outlier = total_sum - 2*nums[i]
+
+            if outlier in dict:
+                if nums[i] != outlier or dict[nums[i]] > 1:
                     max_outlier = max(max_outlier, outlier)
+            
             
 
         return max_outlier
