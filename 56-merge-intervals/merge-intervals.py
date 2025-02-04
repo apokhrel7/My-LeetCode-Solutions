@@ -1,14 +1,26 @@
 class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        if len(intervals) == 1:
+            return intervals
+        # first sort intervals
         intervals.sort()
-        overlap = [intervals[0]]
-        res = []
+        merged = [intervals[0]]
 
         for i in range(1, len(intervals)):
-            if intervals[i][0] <= overlap[-1][1]:
-                overlap[-1] = min(intervals[i][0], overlap[-1][0]), max(intervals[i][1], overlap[-1][1])
-
+            if merged[-1][1] >= intervals[i][0]:
+                merged[-1] = [min(merged[-1][0], intervals[i][0]), max(merged[-1][1], intervals[i][1])]
             else:
-                overlap.append(intervals[i]) 
+                merged.append(intervals[i])
 
-        return overlap
+        return merged
+
+            
+         
+                
+
+            
+            
+            
+
+
+        
