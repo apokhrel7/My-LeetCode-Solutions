@@ -32,8 +32,8 @@ class Solution(object):
             if complement in dict:
                 return [i, dict[complement]]
 
-            else:
-                dict[nums[i]] = i
+            
+            dict[nums[i]] = i
 
         return []
 
