@@ -3,37 +3,39 @@ from collections import deque
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
         ROWS, COLS = len(grid), len(grid[0])
-        visited = set()
+        visited = set()  # track which islands have been visited
 
-    
-        def bfs(row, col):
-            q = deque()
-            q.append((row, col))
-            visited.add((row, col))
+        q = deque()
 
-            DIRECTIONS = [(1, 0), (0, 1), (-1, 0), (0, -1)]
-            
+        # find out which grids contain an island, then span out to "see" how big it is
+        # this way count that island as 1 island
+        # look for others
+        def bfs(r, c):
+            DIRECTIONS = [(0, 1), (1, 0), (-1, 0), (0, -1)]
+
+            q.append((r, c))
+
             while q:
-                r, c = q.popleft()
-               
+                row, col = q.popleft()
                 for x, y in DIRECTIONS:
-                    new_r, new_c = r + x, c + y
+                    new_row, new_col = row + x, col + y
 
-                    if 0 <= new_r < ROWS and 0 <= new_c < COLS and grid[new_r][new_c] == '1' and (new_r, new_c) not in visited:
-                        visited.add((new_r, new_c))
-                        q.append((new_r, new_c))
-
-
+                    if 0 <= new_row < ROWS and 0 <= new_col < COLS and (new_row, new_col) not in visited and grid[new_row][new_col] == "1": 
+                        visited.add((new_row, new_col))
+                        q.append((new_row, new_col)) 
+                        
         num_islands = 0
-        for r in range(ROWS):
-            for c in range(COLS):
-                if grid[r][c] == '1' and (r, c) not in visited:
-                    num_islands += 1
-                    bfs(r, c)
-
-        return num_islands
+        for row in range(ROWS):
+            for col in range(COLS):
+                if grid[row][col] == "1" and (row, col) not in visited:
+                    visited.add((row, col))
+                    bfs(row, col)
+                    num_islands += 1 
 
         
 
 
-            
+        return num_islands
+
+
+        
