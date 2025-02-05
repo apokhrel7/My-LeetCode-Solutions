@@ -18,14 +18,24 @@ class Solution:
 
         # return len(distinct_elements) // 2
 
-        count = 0
-        i = 0
-        while len(nums) > 0:
-            if len(nums) == len(set(nums)):
-                return count
-            del nums[:3]
+        # count = 0
+        # i = 0
+        # while len(nums) > 0:
+        #     if len(nums) == len(set(nums)):
+        #         return count
+        #     del nums[:3]
             
 
-            count += 1
+        #     count += 1
 
-        return count
+        # return count
+
+        # get last duplicate
+        count = 0
+        seen = set()
+        for i in range(len(nums) - 1, -1, -1):
+            if nums[i] in seen:
+                return (i // 3) + 1
+            seen.add(nums[i])
+
+        return 0
