@@ -1,34 +1,35 @@
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        preMap = {}
+        if numCourses == 1: return True
+        
+        
+        adjList = {}
 
-        {1:[0], 0:[]}
+        {0: [], 1:[0]}
+    
 
-        # initialize
+        # prepare adjacency list
         for i in range(numCourses):
-            preMap[i] = []
+            adjList[i] = []
 
-        # append
-        for pre, crs in prerequisites:
-            preMap[pre].append(crs)
+        # add prerequisites to adjacency list
+        for crs, pre in prerequisites:
+            adjList[crs].append(pre)
 
+        seen = set() # to check for cycles
 
-        potential_cycles = set()
         def dfs(course):
-            if course in potential_cycles:
+            if course in seen:
                 return False
-            
-            # leaf node: return True
-            if not preMap[course]:
-                return True
 
-            potential_cycles.add(course)
+            seen.add(course)
 
-            for pre in preMap[course]:
-                if not dfs(pre): return False
-            
-            potential_cycles.remove(course)
-            preMap[course] = []
+            for pre in adjList[course]:
+                if not dfs(pre):
+                    return False
+
+            seen.remove(course)
+            adjList[course] = []
             return True
 
         for i in range(numCourses):
@@ -37,6 +38,5 @@ class Solution:
 
         return True
         
-
 
         
