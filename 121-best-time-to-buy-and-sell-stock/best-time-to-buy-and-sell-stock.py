@@ -14,8 +14,8 @@ class Solution:
             profit = prices[i] - buy
 
 
-            if profit > max_profit:
-                max_profit = max(max_profit, profit)
+            
+            max_profit = max(max_profit, profit)
 
         return max_profit
 
