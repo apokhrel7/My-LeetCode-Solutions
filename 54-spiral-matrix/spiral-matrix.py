@@ -1,47 +1,62 @@
 class Solution:
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
-        # go right
-        # go down
-        # go left
-        # go up
+        # go right, go down, go left, go up, repeat...
+        # update left, right, up, and down borders at the end
+        
+        # Edge case:
+        # there will be a case where only a 1d array is left (either 1 column and many rows, or 1 row and many columns),
+        # then just traverse that normally as you would in a 1d array
 
-        right = len(matrix[0]) - 1
-        left = 0
-        top = 0
-        bottom = len(matrix) - 1
+        TOTAL_ELEMENTS = len(matrix) * len(matrix[0]) 
 
+        right_border, left_border = len(matrix[0]) - 1, 0
+        top_border, bottom_border = 0, len(matrix) - 1 
 
         res = []
 
-        
-        while top < bottom and left < right:
+        while left_border < right_border and top_border < bottom_border :
 
-            for i in range(left, right):
-                res.append(matrix[top][i])
+            # go right
+            for col in range(left_border, right_border):
+                res.append(matrix[top_border][col])
 
-            for i in range(top, bottom):
-                res.append(matrix[i][right])
+            # go down
+            for row in range(top_border, bottom_border):
+                res.append(matrix[row][right_border])
 
-            for i in range(right, left, -1):
-                res.append(matrix[bottom][i])
+
+            # go left
+            for col in range(right_border, left_border, -1):
+                res.append(matrix[bottom_border][col])
+
+            # go up
+            for row in range(bottom_border, top_border, -1):
+                res.append(matrix[row][left_border])
+
+
+            # adjust borders
+            right_border -= 1
+            left_border += 1
             
-            for i in range(bottom, top, -1):
-                res.append(matrix[i][left])
+            top_border += 1
+            bottom_border -= 1
 
-            right -= 1
-            left += 1
-            top += 1
-            bottom -= 1
+        # if there is 1D array left, traverse it
 
-        if top == bottom:
-            for i in range(left, right + 1):
-                res.append(matrix[top][i])
+        # right_border = 2
+        # left_border = 0
 
-        elif left == right:
-            for i in range(top, bottom + 1):
-                res.append(matrix[i][left])
+        # top = 1
+        # bottom = 1
+
+        if len(res) < TOTAL_ELEMENTS:
+            for row in range(top_border, bottom_border + 1):
+                for col in range(left_border, right_border + 1):
+                    res.append(matrix[row][col])
 
         return res
 
-                
-        
+
+
+
+
