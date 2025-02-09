@@ -1,24 +1,26 @@
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
-        
         res = []
-        def dfs(temp, i):
-            # pick i or don't pick it
 
-            # base case, when i is out of bounds
-            if i >= len(nums):
-                res.append(temp.copy())
+        n = len(nums)
+
+        def backtrack(i, temp_array):
+            
+            # Base Case: if all of i numbers are traversed
+            if i >= n:
+                res.append(temp_array.copy())   # append a deep copy of the array
                 return
 
-            # pick nums[i]
-            temp.append(nums[i])
-            dfs(temp, i + 1)
 
-            # don't pick nums[i], pop it out the list and pick something else
-            temp.pop()
-            dfs(temp, i + 1)
+            # decision 1: choose ith number
+            temp_array.append(nums[i])
+            backtrack(i + 1, temp_array)
 
+            # decision 2: dont choose ith number
+            temp_array.pop()
+            backtrack(i + 1, temp_array)
 
+            return 
 
-        dfs([], 0)
+        backtrack(0, [])
         return res
