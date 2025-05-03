@@ -15,11 +15,10 @@ class Solution:
         # reverse matrix vertically (reverse each column)
         while top < bottom:
             for col in range(length):
-                temp = matrix[top][col]
-                matrix[top][col] = matrix[bottom][col]
-                matrix[bottom][col] = temp
-            top += 1
-            bottom -= 1
+                matrix[top][col], matrix[bottom][col]  = matrix[bottom][col], matrix[top][col]
+            
+            top += 1 # go down the column
+            bottom -= 1  # go up the column
 
         # transpose so that each (i, j) becomes (j, i)
         for row in range(length):
