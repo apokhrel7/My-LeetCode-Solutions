@@ -20,15 +20,15 @@ class Solution:
 
             while q:
                 q_length = len(q)
-                for _ in range(q_length):
-                    node = q.popleft()
+                
+                node = q.popleft()
 
-                    if node.left:
-                        q.append(node.left)
-                    if node.right:
-                        q.append(node.right)
+                if node.left:
+                    q.append(node.left)
+                if node.right:
+                    q.append(node.right)
 
-                    node.left, node.right = node.right, node.left
+                node.left, node.right = node.right, node.left
 
             return new_root
 
