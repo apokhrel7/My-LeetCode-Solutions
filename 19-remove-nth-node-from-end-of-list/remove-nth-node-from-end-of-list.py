@@ -12,11 +12,10 @@ class Solution:
             nodes.append(curr)
             curr = curr.next
 
-
         target = len(nodes) - n
         if target == 0: return head.next
 
 
         nodes[target - 1].next = nodes[target].next
-        return head
+        return nodes[0]
         
