@@ -1,29 +1,33 @@
 class Solution:
     def longestPalindrome(self, s: str) -> str:
 
-        # can be even or odd
-        if len(s) == 1: return s
-
-        max_length = ''
+        longest_palindrome = ""
         for i in range(len(s)):
-            
-            # even
-            left, right = i, i
-        
-            while left >= 0 and right < len(s) and s[left] == s[right]:
-                if (right - left) + 1 > len(max_length):
-                    max_length = s[left:right+1]
-                left -= 1
-                right += 1  
 
+            # check for odd palindrome lengths
+            l, r = i, i
 
-            #odd
-            left, right = i, i + 1
-            while left >= 0 and right < len(s) and s[left] == s[right]:
-                if (right - left) + 1 > len(max_length):
-                    max_length = s[left:right+1]
-                left -= 1
-                right += 1  
-        
+            # expand left and right pointers, make sure they're in bound, and that a palindrome exists 
+            while l >= 0 and r < len(s) and s[l] == s[r]:
+                potential_palindrome = s[l : r + 1]
 
-        return max_length
+                if len(potential_palindrome) > len(longest_palindrome):
+                    longest_palindrome = potential_palindrome
+
+                # starts from i and expands outwards on both sides
+                l -= 1
+                r += 1
+
+            # check for even palindrome lengths
+            l, r = i, i + 1
+
+            while l >= 0 and r < len(s) and s[l] == s[r]:
+                potential_palindrome = s[l : r + 1]
+
+                if len(potential_palindrome) > len(longest_palindrome):
+                    longest_palindrome = potential_palindrome
+
+                l -= 1
+                r += 1
+
+        return longest_palindrome
