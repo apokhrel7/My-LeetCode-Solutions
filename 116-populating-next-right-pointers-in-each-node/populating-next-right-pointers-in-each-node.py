@@ -23,7 +23,6 @@ class Solution:
         if not root: return root
         
         q = deque([root])
-        prev = None
 
         # [7]
 
@@ -37,12 +36,8 @@ class Solution:
             for i in range(q_length):
                 node = q.popleft()
 
-                if i == (q_length - 1):
-                    prev = None
-                else:
-                    prev = q[0]
-
-                node.next = prev
+                if i < (q_length - 1):
+                    node.next = q[0]
 
                 if node.left:
                     q.append(node.left)
