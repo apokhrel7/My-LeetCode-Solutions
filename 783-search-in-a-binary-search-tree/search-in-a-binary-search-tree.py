@@ -22,21 +22,36 @@ class Solution:
 
         # return dfs(root)
 
-        q = deque([root])
+        ## BFS QUEUE ##
+        # q = deque([root])
 
-        while q:
-            node = q.popleft()
+        # while q:
+        #     node = q.popleft()
 
-            if not node:
-                return None
+        #     if not node:
+        #         return None
 
-            elif node.val == val:
-                return node
+        #     elif node.val == val:
+        #         return node
 
-            elif node.val < val:
-                q.append(node.right)
+        #     elif node.val < val:
+        #         q.append(node.right)
             
+        #     else:
+        #         q.append(node.left)
+
+        # return None
+
+
+        ### WITHOUT QUEUE ###
+        node = root
+
+        while node:
+            if node.val == val:
+                return node
+            elif node.val < val:
+                node = node.right
             else:
-                q.append(node.left)
+                node = node.left
 
         return None
