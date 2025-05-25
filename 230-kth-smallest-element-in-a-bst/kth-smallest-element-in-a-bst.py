@@ -41,9 +41,13 @@ class Solution:
                 return
 
             dfs(node.left)
+
+            # space optimized to O(k) instead of O(n) as we stop recursion immediately when kth index is found
+            if len(integers) == k:
+                return
             integers.append(node.val)
             dfs(node.right)
         dfs(root)
-        return integers[k-1]
+        return integers[-1]   # kth index will be the last element that was added
 
 
