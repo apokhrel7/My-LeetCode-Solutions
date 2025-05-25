@@ -11,28 +11,39 @@ class Solution:
         - count up from there going right
         - then going up to parent
         """
-        self.count = 0
-        self.theVal = 0
+        # self.count = 0
+        # self.theVal = 0
+        # def dfs(node):
+        #     # if we reach leaf node, start counting from there so return back up
+        #     if not node:
+        #         return
+
+        #     dfs(node.left)
+            
+        #     # left leaf node has been reached, start counting
+        #     self.count += 1
+
+        #     # return early if kth smallest is found using the count
+        #     if k == self.count:
+        #         self.theVal = node.val
+        #         return
+
+        #     # otherwise traverse right subtree
+        #     dfs(node.right)
+
+            
+        # dfs(root)
+        # return self.theVal
+
+        integers = []
         def dfs(node):
-            # if we reach leaf node, start counting from there so return back up
             if not node:
                 return
 
             dfs(node.left)
-            
-            # left leaf node has been reached, start counting
-            self.count += 1
-
-            # return early if kth smallest is found using the count
-            if k == self.count:
-                self.theVal = node.val
-                return
-
-            # otherwise traverse right subtree
+            integers.append(node.val)
             dfs(node.right)
-
-            
         dfs(root)
-        return self.theVal
+        return integers[k-1]
 
 
