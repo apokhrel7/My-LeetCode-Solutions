@@ -20,30 +20,30 @@ class Solution:
         - do this by tracking the previous node and connect that to the right node
         - we are guaranteed that its a perfect BST
         """
-        if not root: return root
         
-        q = deque([root])
+        if not root: return root
 
-        # [7]
+        leftmost = root
 
-        # 4 -> 5
-        # 5 -> 6
-        # 6 -> 7
+        # since it's a perfect binary tree, we can just make sure there is a left node
+        # we stop until we dont have a left node or when we hit a leaf (or right node doesnt matter)
+        while leftmost.left:
 
-        while q:
-            q_length = len(q)
+            # Walk across the current level, using next pointers
+            head = leftmost
 
-            for i in range(q_length):
-                node = q.popleft()
+            while head:
+                # 1) Link head.left → head.right
+                head.left.next = head.right
 
-                if i < (q_length - 1):
-                    node.next = q[0]
+                # 2) If there's a next group, link head.right → head.next.left
+                if head.next:
+                    head.right.next = head.next.left
 
-                if node.left:
-                    q.append(node.left)
-                if node.right:
-                    q.append(node.right)
+                # Move to the next node in this level (i.e move to right node of this current level)
+                head = head.next
+
+            # Move down one level of tree
+            leftmost = leftmost.left
 
         return root
-                
-        
