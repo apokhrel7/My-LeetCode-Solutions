@@ -14,7 +14,7 @@ class Solution:
         # this is to prevent "Time Limit Exceeded"
         for num in hash_set:
             if (num - 1) not in hash_set:
-                curr_longest = 0
+                curr_longest = 1
 
                 while (num + curr_longest) in hash_set:
                     curr_longest += 1
