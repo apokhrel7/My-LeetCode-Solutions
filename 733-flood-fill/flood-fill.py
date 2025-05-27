@@ -2,8 +2,13 @@ from collections import deque
 
 class Solution:
     def floodFill(self, image: List[List[int]], sr: int, sc: int, color: int) -> List[List[int]]:
+        
+        # Base case: if the starting pixel is already the target "color", then nothing to do just return the image 
+        if image[sr][sc] == color:
+            return image
+
         # BFS
-                
+
         DIRECTIONS = [(1, 0), (0, 1), (-1, 0), (0, -1)]
         ROWS, COLS = len(image), len(image[0])
         q = deque([(sr, sc)])
