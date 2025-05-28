@@ -1,40 +1,35 @@
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
-        preMap = {}
-
+        adj_list = {}
         res = []
+        potential_cycle = set()
+        visited = set()
 
-
-        # initialize
+        # initialize adjacency list
         for i in range(numCourses):
-            preMap[i] = []
+            adj_list[i] = []
 
-        # append
-        for pre, crs in prerequisites:
-            preMap[pre].append(crs)
+        # populate adjacency list
+        for pre, course in prerequisites:
+            adj_list[pre].append(course)
 
-
-        potential_cycles = set()
-        seen = set()
-        def dfs(course):
-            if course in potential_cycles:
-                return False
-
-            if course in seen:
+        def dfs(crs):
+            if crs in visited:
                 return True
 
-            potential_cycles.add(course)            
-            for pre in preMap[course]:
-                if not dfs(pre): return False
+            if crs in potential_cycle:
+                return False
 
-            seen.add(course)
-            potential_cycles.remove(course)  # can be ruled out as cycle
-            res.append(course)
+            potential_cycle.add(crs)
+            for pre in adj_list[crs]:
+                if not dfs(pre): return False
             
+            potential_cycle.remove(crs)
+            visited.add(crs)
+            res.append(crs)
             return True
 
         for i in range(numCourses):
-            if not dfs(i):
-                return []
-
+            if not dfs(i): return []
+            
         return res
