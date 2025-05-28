@@ -1,4 +1,3 @@
-from collections import deque
 
 class Solution:
     def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
@@ -44,7 +43,7 @@ class Solution:
 
         # 2) BFS helper: flood "uphill" from the queued cells (from the outside borders),
         ##    marking every neighbor we can reach (i.e. heights[ni][nj] >= heights[i][j]).
-        def bfs(q, visited):
+        def bfs(q: deque, reachable: List[List[bool]]):
             DIRECTIONS = [(0, 1), (0, -1), (1, 0), (-1, 0)]  
 
             while q:
@@ -53,9 +52,9 @@ class Solution:
                 for x, y in DIRECTIONS:
                     new_i, new_j = i + x, j + y
 
-                    # check if new cell is in bounds, not visited, and if the new cell is bigger or equal to the previous one  
-                    if 0 <= new_i < ROWS and 0 <= new_j < COLS and not visited[new_i][new_j] and heights[new_i][new_j] >= heights[i][j]:
-                        visited[new_i][new_j] = True
+                    # check if new cell is in bounds, not reachable, and if the new cell is bigger or equal to the previous one  
+                    if 0 <= new_i < ROWS and 0 <= new_j < COLS and not reachable[new_i][new_j] and heights[new_i][new_j] >= heights[i][j]:
+                        reachable[new_i][new_j] = True
                         q.append((new_i, new_j))
                         
 
@@ -64,7 +63,7 @@ class Solution:
         bfs(atlantic_q, atlantic_reachable)
 
         # 4) Any cell reachable by both floods can send water to both oceans
-            ## The intersection of the pacific visited and atlantic visited will give us the coordinates of the cells where water 
+            ## The intersection of the pacific reachable and atlantic reachable will give us the coordinates of the cells where water 
             ## can flow to both Pacific and Atlantic oceans
         res = []
         for row in range(ROWS):
