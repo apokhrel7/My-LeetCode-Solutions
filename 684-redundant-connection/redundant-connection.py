@@ -31,7 +31,7 @@ class Solution:
             adj_list[a].append(b)
             adj_list[b].append(a)
             
-            if find_cycle(a, b, set()):
+            if find_cycle(a, -1, set()):
                 return [a, b]
         
         return []
