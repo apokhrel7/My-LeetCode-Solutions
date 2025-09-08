@@ -1,28 +1,26 @@
 class Solution:
     def longestConsecutive(self, nums: List[int]) -> int:
-        if not nums: return 0
+        # find local minima
+        # track local max using the local minima number
+        # update max
 
-        # put all numbers in hash set for quick lookup
+        if len(nums) == 0:
+            return 0
+
         hash_set = set(nums)
-        max_length = 0
-        
-        # look at an number
-        # see if that number -1 exists
-        # if not, then that might be the start of a sequence
 
-        # remember to loop through the hash set not the array as the array could have all duplicates
-        # this is to prevent "Time Limit Exceeded"
+        global_max_length = 0
+
         for num in hash_set:
+            
+            # this could be the beginning of the sequence
+            # since there's no sequence before it
             if (num - 1) not in hash_set:
-                curr_longest = 1
+                curr_length = 1
 
-                while (num + curr_longest) in hash_set:
-                    curr_longest += 1
-                max_length = max(max_length, curr_longest)
+                while (num + curr_length) in hash_set:
+                    curr_length += 1
 
-        return max_length
+                global_max_length = max(global_max_length, curr_length)
 
-
-
-
-        
+        return global_max_length
