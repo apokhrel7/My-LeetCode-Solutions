@@ -1,29 +1,39 @@
+## Disjoint Union (Union Find) Method ##
+
+class UnionFind:
+    def __init__(self, n):
+        self.parent = [i for i in range(n+1)]
+        self.rank = [1] * (n+1)
+
+    def find(self, x):
+        while x != self.parent[x]:
+            self.parent[x] = self.parent[self.parent[x]]
+            x = self.parent[x]
+        return x
+
+    def union(self, x1, x2):
+        p1, p2 = self.find(x1), self.find(x2)
+
+        if p1 == p2:
+            return False # cycle
+
+        if self.rank[p1] > self.rank[p2]:
+            self.parent[p2] = p1
+            self.rank[p1] += self.rank[p2]
+        else:
+            self.parent[p1] = p2
+            self.rank[p2] += self.rank[p1]
+
+        return True
+
+
 class Solution:
     def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
-        adj_list = {}
-        n = len(edges)
-        for i in range(1, n + 1):
-            adj_list[i] = []
-
-
-        def dfs_is_cycle_detected(node, prev, visited):
-            if node in visited:
-                return True
-
-            visited.add(node)
-            for nei in adj_list[node]:
-                if nei == prev:
-                    continue
-
-                if dfs_is_cycle_detected(nei, node, visited):
-                    return True
-
-            return False
-
+        uf = UnionFind(len(edges))
 
         for a, b in edges:
-            adj_list[a].append(b)
-            adj_list[b].append(a)
 
-            if dfs_is_cycle_detected(a, b, set()):
+            # if we can't union two edges, they must have the same parent
+            # thus, cycle present due to edge (a, b)
+            if not uf.union(a, b):
                 return [a, b]
