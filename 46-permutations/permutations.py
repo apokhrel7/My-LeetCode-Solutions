@@ -1,26 +1,24 @@
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
-        res = []
-
         n = len(nums)
 
-        def backtrack(i, nums):
-            # Base Case
-            if i == len(nums):
+
+        def backtrack(i):
+            if i == n:
                 return [[]]
 
-            resPerms = []
-            perms = backtrack(i + 1, nums)
+            res_perms = []
+            curr_perms = backtrack(i + 1)
 
-            for p in perms:
+            for p in curr_perms:
 
-                # insert nums[j] into every possible
-                # position in curr_arr
+                # insert nums[i] into every possible position 
+                # in a current permutation
                 for j in range(len(p) + 1):
-                    p_copy = p.copy()
+                    p_copy = p.copy()  # can also use p[::] ?
                     p_copy.insert(j, nums[i])
-                    resPerms.append(p_copy)
-                
-            return resPerms
-        
-        return backtrack(0, nums)
+                    res_perms.append(p_copy)
+
+            return res_perms
+
+        return backtrack(0)
