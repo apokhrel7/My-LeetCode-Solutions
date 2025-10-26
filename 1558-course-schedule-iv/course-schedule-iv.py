@@ -10,36 +10,42 @@ class Solution:
         This solution similar to Course Schedule II but now cache the prerequisite nodes!
         """
 
+        """
+
+        b --> a
+        c --> b
+
+        c --> b --> a
+
+        prerequisites graph has NO cycles
+        """
         res = []
         adj_list = {c: [] for c in range(numCourses)}
+        cache = [[None] * numCourses for _ in range(numCourses)]
 
         for pre, crs in prerequisites:
             adj_list[crs].append(pre)
+            cache[crs][pre] = True
 
-        def dfs(crs):
-            if crs not in prereqMap:
-                prereqMap[crs] = set()
+        def dfs(crs, target):
+            # cache hit, return value stored 
+            if cache[crs][target] is not None:
+                return cache[crs][target]
 
-                for pre in adj_list[crs]:
-                    # prereqMap[crs].update(dfs(pre)) # this equivalent
-                    prereqMap[crs] |= dfs(pre)
+            for pre in adj_list[crs]:
 
-                # at the end, add course itself as prereq
-                prereqMap[crs].add(crs)
+                # if we find node v from u (find that we can get prereq from a course)
+                if pre == target or dfs(pre, target):
+                    cache[crs][target] = True
+                    return True
 
-            # crs is indirect or direct prereq
-            return prereqMap[crs]
+            # crs is not a prereq, add that to cache
+            cache[crs][target] = False
+            return False
 
-        # populate the prereqMap
-        prereqMap = {}
-        for crs in range(numCourses):
-            dfs(crs)
 
-        # Check the queries and if u is in the prereq map we computed
-        # This way we cache all prereqs to make it more efficient and prevent recursing
-        # nodes we already visited
         for u, v in queries:
-            result = u in prereqMap[v]
+            result = dfs(v, u)
             res.append(result)
         return res 
     
