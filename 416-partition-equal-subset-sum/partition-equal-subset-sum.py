@@ -30,7 +30,7 @@ class Solution:
                 return cache[(i, curr_sum)]
 
             
-            cache[(i, curr_sum)] = dfs(i + 1, curr_sum + nums[i]) or dfs(i + 1, curr_sum)  
+            cache[(i, curr_sum)] = dfs(i + 1, curr_sum) or dfs(i + 1, curr_sum + nums[i]) 
             # # include ith element
             # dfs(i + 1, nums[i])
 
