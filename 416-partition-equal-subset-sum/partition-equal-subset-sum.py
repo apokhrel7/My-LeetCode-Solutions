@@ -1,30 +1,47 @@
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
+        # dfs with cache
+        # Case 1: include ith element
+        # Case 2: don't include ith element
+        # recurse + cache
+
+        # if sum not divisible by 2, can't partition into two subsets
+        if sum(nums) % 2 != 0: return False
+
         n = len(nums)
 
-        target_num = sum(nums) // 2
+        # this is what we're trying to reach
+        target_sum = sum(nums) // 2
 
-        # Base case 1
-        if sum(nums) % 2 != 0:
-            return False
+        cache = {}
 
-        
-        def dfs(i, sum_, cache):
-            # Base case 2, 3
-            if i >= n or sum_ > target_num:
+
+        def dfs(i, curr_sum):
+            
+            # Base case 1: i out of bounds
+            # Base case 2: sum we calculate overshoots the target
+            if i >= n or curr_sum > target_sum:
                 return False
 
-            # Base case 4
-            if sum_ == target_num:
+            if curr_sum == target_sum:
                 return True
 
-            if (i, sum_) in cache:
-                return cache[(i, sum_)]
+            if (i, curr_sum) in cache:
+                return cache[(i, curr_sum)]
 
-            cache[(i, sum_)] = dfs(i + 1, nums[i] + sum_, cache) or dfs(i + 1, sum_, cache)
-            return cache[(i, sum_)]
+            
+            cache[(i, curr_sum)] = dfs(i + 1, curr_sum) or dfs(i + 1, curr_sum + nums[i]) 
+            # # include ith element
+            # dfs(i + 1, nums[i])
 
-        return dfs(0, 0, {})
+            # # don't include ith element
+            # dfs(i + 1)
+
+            return cache[(i, curr_sum)]
+
+
+        return dfs(0, 0)
+
 
 
         
